@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Registration</title>
+    </head>
+    <body>
+        <a href="/"><h3>Home</h3></a>
+        <h1>Register</h1>
+        <form action="/register" method="POST" novalidate>
+            <div>
+                {{range .Errors.name}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>Name</label></p>
+                <p><input type="text" name="name"></p>
+            </div>
+            <div>
+                {{range .Errors.email}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>Email</label></p>
+                <p><input type="email" name="email"></p>
+            </div>
+            <div>
+                {{range .Errors.password}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>Password</label></p>
+                <p><input type="password" name="password"></p>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>      
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Tasks</title>
+    </head>
+    <a href="/"><h3>Home</h3></a>
+        <h1>Create Task</h1>
+        <form action="/tasks" method="POST" novalidate>
+            <div>
+                {{range .Errors.name}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>Name</label></p>
+                <p><input type="name" name="name"></p>
+            </div>
+            <div>
+                {{range .Errors.Status}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>Status</label></p>
+                <p><select name="status">
+                    <option value="">...</option>
+                    <option value="todo">To Do</option>
+                    <option value="doing">Doing</option>
+                    <option value="done">Done</option>
+                </select></p>
+            </div>
+            <div>
+                {{range .Errors.EndDate}}
+                    <p style="color:crimson">{{.}}</p>
+                {{end}}
+                <p><label>End Date</label></p>
+                <p><input type="date" name="endDate" min="2024-10-1" max="2024-12-31"></p>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>      
+    </body>
+</html>

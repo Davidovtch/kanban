@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Blog</title>
+</head>
+<body>
+    <a href="/tasks"><h3>Create Task</h3></a>
+    <a href="/employee"><h3>Create Employee</h3></a>
+    {{range .Tasks}}
+        <article>
+            <h2>{{.Name}}</h2>
+            <a href="/delTask/{{.ID}}">del</a>
+            <a href="/task/{{.ID}}">upd</a>
+            <p>{{.Status}}</p>
+            <p>{{.EndDate}}</p>
+        </article>
+    {{end}}
+    {{range .Employees}}
+        <article>
+            <h2>{{.Name}}</h2>
+            <p>{{.Email}}</p>
+            <a href="/delEmployee/{{.ID}}">del</a>
+            <a href="/employee/{{.ID}}">upd</a>
+        </article>
+    {{end}}
+</body>
+</html>
