@@ -13,3 +13,9 @@ type Employees struct {
 	Email    string
 	Password string
 }
+
+type Task_Empl struct {
+	ID          int
+	Task_id     int
+	Employee_id int
+}

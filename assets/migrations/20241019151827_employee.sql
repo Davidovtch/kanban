@@ -10,5 +10,5 @@ CREATE TABLE employees(
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE employee;
+DROP TABLE employees;
 -- +goose StatementEnd

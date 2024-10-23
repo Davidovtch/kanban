@@ -83,10 +83,7 @@ func (m *EmployeeModel) Insert(name, email, password string) error {
 	stmt := `INSERT INTO employees (name,email,password) VALUES (?,?,?)`
 
 	_, err = m.DB.Exec(stmt, name, email, passwd)
-	if err != nil {
-		return err
-	}
-	return nil
+	return err
 }
 
 func (m *EmployeeModel) Delete(id int) error {
