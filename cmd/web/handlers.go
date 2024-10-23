@@ -116,6 +116,7 @@ func (app *app) postEmployee(w http.ResponseWriter, r *http.Request) {
 	form.Required("name", "email", "password")
 	form.MaxLenght("name", 30)
 	form.MaxLenght("email", 60)
+	form.Email("email")
 
 	if !form.Valid() {
 		render(w, "employee.html", pageData{"Form": form})
@@ -223,6 +224,7 @@ func (app *app) updateEmployee(w http.ResponseWriter, r *http.Request) {
 	form.Required("name", "email", "password")
 	form.MaxLenght("name", 30)
 	form.MaxLenght("email", 60)
+	form.Email("email")
 
 	if !form.Valid() {
 		render(w, "upEmployee.html", pageData{"Form": form})
