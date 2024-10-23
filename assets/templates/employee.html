@@ -10,25 +10,25 @@
         <h1>Register Employee</h1>
         <form action="/employee" method="POST" novalidate>
             <div>
-                {{range .Errors.name}}
+                {{range .Form.Errors.List "name"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>Name</label></p>
-                <p><input type="text" name="name"></p>
+                <p><input type="text" name="name" value='{{.Form.Get "name"}}'></p>
             </div>
             <div>
-                {{range .Errors.email}}
+                {{range .Form.Errors.List "email"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>Email</label></p>
-                <p><input type="email" name="email"></p>
+                <p><input type="email" name="email" value='{{.Form.Get "email"}}'></p>
             </div>
             <div>
-                {{range .Errors.password}}
+                {{range .Form.Errors.List "password"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>Password</label></p>
-                <p><input type="password" name="password"></p>
+                <p><input type="password" name="password" value='{{.Form.Get "password"}}'></p>
             </div>
             <div>
                 <input type="submit" value="Submit">

@@ -3,6 +3,8 @@ package main
 import (
 	"net/http"
 	"strconv"
+
+	"github.com/davidovtch/Projeto-testes/internal/forms"
 )
 
 func (app *app) getLoginPage(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +39,7 @@ func (app *app) getEmployeePage(w http.ResponseWriter, r *http.Request) {
 	render(w, "employee.html", nil)
 }
 
-func (app *app) upTask(w http.ResponseWriter, r *http.Request) {
+func (app *app) getUpdateTaskPage(w http.ResponseWriter, r *http.Request) {
 	tmp := r.PathValue("id")
 	id, err := strconv.Atoi(tmp)
 	if err != nil {
@@ -54,7 +56,7 @@ func (app *app) upTask(w http.ResponseWriter, r *http.Request) {
 	render(w, "upTask.html", pageData{"Values": task})
 }
 
-func (app *app) upEmployee(w http.ResponseWriter, r *http.Request) {
+func (app *app) getUpdateEmployeePage(w http.ResponseWriter, r *http.Request) {
 	tmp := r.PathValue("id")
 	id, err := strconv.Atoi(tmp)
 	if err != nil {
@@ -81,14 +83,19 @@ func (app *app) postTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name := r.PostForm.Get("name")
-	status := r.PostForm.Get("status")
-	endDate := r.PostForm.Get("endDate")
+	form := forms.New(r.PostForm)
+	form.Required("name", "status", "endDate")
+	form.MaxLenght("name", 50)
+
+	if !form.Valid() {
+		render(w, "task.html", pageData{"Form": form})
+		return
+	}
 
 	err := app.task.Insert(
-		name,
-		status,
-		endDate,
+		r.PostForm.Get("name"),
+		r.PostForm.Get("status"),
+		r.PostForm.Get("endDate"),
 	)
 
 	if err != nil {
@@ -105,14 +112,20 @@ func (app *app) postEmployee(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name := r.PostForm.Get("name")
-	email := r.PostForm.Get("email")
-	passwd := r.PostForm.Get("password")
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MaxLenght("name", 30)
+	form.MaxLenght("email", 60)
+
+	if !form.Valid() {
+		render(w, "employee.html", pageData{"Form": form})
+		return
+	}
 
 	err := app.empl.Insert(
-		name,
-		email,
-		passwd,
+		r.PostForm.Get("name"),
+		r.PostForm.Get("email"),
+		r.PostForm.Get("password"),
 	)
 
 	if err != nil {
@@ -176,11 +189,16 @@ func (app *app) updateTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name := r.PostForm.Get("name")
-	status := r.PostForm.Get("status")
-	date := r.PostForm.Get("endDate")
+	form := forms.New(r.PostForm)
+	form.Required("name", "status", "endDate")
+	form.MaxLenght("name", 50)
 
-	if err = app.task.Update(name, status, date, id); err != nil {
+	if !form.Valid() {
+		render(w, "upTask.html", pageData{"Form:": form})
+		return
+	}
+
+	if err = app.task.Update(r.PostForm.Get("name"), r.PostForm.Get("status"), r.PostForm.Get("endDate"), id); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
@@ -201,11 +219,17 @@ func (app *app) updateEmployee(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	name := r.PostForm.Get("name")
-	email := r.PostForm.Get("email")
-	passwd := r.PostForm.Get("password")
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MaxLenght("name", 30)
+	form.MaxLenght("email", 60)
 
-	if err = app.empl.Update(name, email, passwd, id); err != nil {
+	if !form.Valid() {
+		render(w, "upEmployee.html", pageData{"Form": form})
+		return
+	}
+
+	if err = app.empl.Update(r.PostForm.Get("name"), r.PostForm.Get("email"), r.PostForm.Get("password"), id); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}

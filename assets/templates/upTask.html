@@ -9,14 +9,14 @@
         <h1>Update Task</h1>
         <form action="/upTask/{{.Values.ID}}" method="POST" novalidate>
             <div>
-                {{range .Errors.name}}
+                {{range .Form.Errors.List "name"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>Name</label></p>
                 <p><input type="name" name="name" value="{{.Values.Name}}"></p>
             </div>
             <div>
-                {{range .Errors.Status}}
+                {{range .Form.Errors.List "status"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>Status</label></p>
@@ -28,7 +28,7 @@
                 </select></p>
             </div>
             <div>
-                {{range .Errors.EndDate}}
+                {{range .Form.Errors.List "endDate"}}
                     <p style="color:crimson">{{.}}</p>
                 {{end}}
                 <p><label>End Date</label></p>

@@ -12,6 +12,8 @@ type TEModel struct {
 
 // func (m *TEModel) All() (models.Tasks, models.Employees, error) {
 // 	stmt := `SELECT `
+// send the task_empl model and use the html to choose how to render the tasks
+// and employees
 
 // }
 
