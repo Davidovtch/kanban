@@ -9,7 +9,7 @@ import (
 type pageData map[string]any
 
 func render(w http.ResponseWriter, page string, data pageData) {
-	t, err := template.ParseFiles("./assets/templates/" + page)
+	t, err := template.New(page).ParseFiles("./assets/templates/"+page, "./assets/templates/layout.html")
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), 500)

@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Blog</title>
-</head>
-<body>
-    <a href="/tasks"><h3>Create Task</h3></a>
-    <a href="/employee"><h3>Create Employee</h3></a>
+{{template "layout"}}
+{{define "title"}}Home{{end}}
+{{define "content"}}
+    <iconify-icon icon="ic:baseline-home" width="32px" height="32px"></iconify-icon>
     {{range .Tasks}}
         <article>
             <h2>{{.Name}}</h2>
@@ -25,5 +19,4 @@
             <a href="/employee/{{.ID}}">upd</a>
         </article>
     {{end}}
-</body>
-</html>
+{{end}}
