@@ -1,38 +1,43 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>Update</title>
-    </head>
-    <body>
-        <a href="/"><h3>Home</h3></a>
-        <h1>Update Employee</h1>
-        <form action="/upEmployee/{{.Values.ID}}" method="POST" novalidate>
-            <div>
-                {{range .Errors.name}}
-                    <p style="color:crimson">{{.}}</p>
+{{template "layout"}}
+{{define "title"}}Update Employee{{end}}
+{{define "content"}}
+    <h1>Update Employee</h1>
+    <form action="/upEmployee/{{.Values.ID}}" method="POST" novalidate>
+        <div>
+            <p><label>Name</label></p>
+            <p><input type="text" name="name" 
+                value="{{if .Values.Name}}{{.Values.Name}}{{else}}{{end}}"
+                aria-invalid='{{with .Form.Errors.List "name"}}true{{end}}'
+                aria-describedby="e-name"> 
+                {{range .Form.Errors.List "name"}}
+                    <small id="e-name">{{.}}</small>
                 {{end}}
-                <p><label>Name</label></p>
-                <p><input type="text" name="name" value="{{.Values.Name}}"></p>
-            </div>
-            <div>
-                {{range .Errors.email}}
-                    <p style="color:crimson">{{.}}</p>
+            </p>
+        </div>
+        <div>
+            <p><label>Email</label></p>
+            <p><input type="email" name="email" 
+                value="{{if .Values.Email}}{{.Values.Email}}{{else}}{{end}}"
+                aria-invalid='{{with .Form.Errors.List "email"}}true{{end}}'
+                aria-describedby="e-email">
+                {{range .Form.Errors.List "email"}}
+                    <small id="e-email" style="color:var(--pico-del-color)">
+                        {{.}}</small>
                 {{end}}
-                <p><label>Email</label></p>
-                <p><input type="email" name="email" value="{{.Values.Email}}"></p>
-            </div>
-            <div>
-                {{range .Errors.password}}
-                    <p style="color:crimson">{{.}}</p>
+            </p>
+        </div>
+        <div>
+            <p><label>Password</label></p>
+            <p><input type="password" name="password"
+                aria-invalid='{{with .Form.Errors.List "password"}}true{{end}}'
+                aria-describedby="e-password">
+                {{range .Form.Errors.List "password"}}
+                    <small id="e-password">{{.}}</small>
                 {{end}}
-                <p><label>Password</label></p>
-                <p><input type="password" name="password"></p>
-            </div>
-            <div>
-                <input type="submit" value="Submit">
-            </div>
+            </p>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
         </form>      
-    </body>
-</html>
+{{end}}

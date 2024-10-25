@@ -1,8 +1,7 @@
 {{template "layout"}}
 {{define "title"}}Register{{end}}    
 {{define "content"}}    
-    <a href="/"><h3>Home</h3></a>
-    <h1>Register</h1>
+    <h1>Register your Account</h1>
     <form action="/register" method="POST" novalidate>
         <div>
             {{range .Errors.name}}

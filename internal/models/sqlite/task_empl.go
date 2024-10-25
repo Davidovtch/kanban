@@ -10,12 +10,31 @@ type TEModel struct {
 	DB *sql.DB
 }
 
-// func (m *TEModel) All() (models.Tasks, models.Employees, error) {
-// 	stmt := `SELECT `
-// send the task_empl model and use the html to choose how to render the tasks
-// and employees
+func (m *TEModel) All() ([]models.Task_Empl, error) {
+	stmt := `SELECT id,task_id,employee_id FROM task_employee`
 
-// }
+	row, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	relations := []models.Task_Empl{}
+	for row.Next() {
+		te := models.Task_Empl{}
+		err := row.Scan(&te.ID, &te.Task_id, &te.Employee_id)
+		if err != nil {
+			return nil, err
+		}
+
+		relations = append(relations, te)
+	}
+
+	if err = row.Err(); err != nil {
+		return nil, err
+	}
+
+	return relations, nil
+}
 
 func (m *TEModel) Find(id int) (models.Task_Empl, error) {
 	var te models.Task_Empl

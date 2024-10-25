@@ -3,20 +3,7 @@
 {{define "content"}}
     <iconify-icon icon="ic:baseline-home" width="32px" height="32px"></iconify-icon>
     {{range .Tasks}}
-        <article>
-            <h2>{{.Name}}</h2>
-            <a href="/delTask/{{.ID}}">del</a>
-            <a href="/task/{{.ID}}">upd</a>
-            <p>{{.Status}}</p>
-            <p>{{.EndDate}}</p>
-        </article>
-    {{end}}
-    {{range .Employees}}
-        <article>
-            <h2>{{.Name}}</h2>
-            <p>{{.Email}}</p>
-            <a href="/delEmployee/{{.ID}}">del</a>
-            <a href="/employee/{{.ID}}">upd</a>
-        </article>
+        <h2>{{.Name}}</h2>
     {{end}}
 {{end}}
+

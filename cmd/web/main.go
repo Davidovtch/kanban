@@ -11,8 +11,9 @@ import (
 )
 
 type app struct {
-	task *sqlite.TaskModel
-	empl *sqlite.EmployeeModel
+	task      *sqlite.TaskModel
+	empl      *sqlite.EmployeeModel
+	task_empl *sqlite.TEModel
 }
 
 func main() {
@@ -26,6 +27,9 @@ func main() {
 			DB: db,
 		},
 		empl: &sqlite.EmployeeModel{
+			DB: db,
+		},
+		task_empl: &sqlite.TEModel{
 			DB: db,
 		},
 	}

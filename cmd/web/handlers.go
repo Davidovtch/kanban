@@ -28,7 +28,13 @@ func (app *app) getHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render(w, "home.html", pageData{"Tasks": tasks, "Employees": empl})
+	task_empl, err := app.task_empl.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "home.html", pageData{"Tasks": tasks, "Employees": empl, "TE": task_empl})
 }
 
 func (app *app) getTaskPage(w http.ResponseWriter, r *http.Request) {

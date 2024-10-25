@@ -20,5 +20,5 @@ func render(w http.ResponseWriter, page string, data pageData) {
 		data = pageData{}
 	}
 
-	t.Execute(w, data)
+	t.ExecuteTemplate(w, "layout", data)
 }

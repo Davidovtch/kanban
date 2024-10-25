@@ -1,43 +1,47 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0">
-        <title>Tasks</title>
-    </head>
-    <a href="/"><h3>Home</h3></a>
-        <h1>Update Task</h1>
-        <form action="/upTask/{{.Values.ID}}" method="POST" novalidate>
-            <div>
+{{template "layout"}}
+{{define "title"}}Update Task{{end}}
+{{define "content"}}
+    <h1>Update Task</h1>
+    <form action="/upTask/{{.Values.ID}}" method="POST" novalidate>
+        <div>
+            <p><label>Name</label></p>
+            <p><input type="name" name="name" 
+                value="{{if .Values.Name}}{{.Values.Name}}{{else}}{{end}}"
+                aria-invalid='{{with .Form.Errors.List "name"}}true{{end}}'
+                aria-describedby="e-name"> 
                 {{range .Form.Errors.List "name"}}
-                    <p style="color:crimson">{{.}}</p>
+                    <small id="e-name">{{.}}</small>
                 {{end}}
-                <p><label>Name</label></p>
-                <p><input type="name" name="name" value="{{.Values.Name}}"></p>
-            </div>
-            <div>
-                {{range .Form.Errors.List "status"}}
-                    <p style="color:crimson">{{.}}</p>
-                {{end}}
-                <p><label>Status</label></p>
-                <p><select name="status">
-                    <option value="">...</option>
-                    <option value="todo">To Do</option>
-                    <option value="doing">Doing</option>
-                    <option value="done">Done</option>
-                </select></p>
-            </div>
-            <div>
+            </p>
+        </div>
+        <div>
+            <p><label>Status</label></p>
+            <p><select name="status"
+                aria-invalid='{{with .Form.Errors.List "status"}}true{{end}}'
+                aria-describedby="e-status">
+                <option value="">...</option>
+                <option value="todo">To Do</option>
+                <option value="doing">Doing</option>
+                <option value="done">Done</option>
+            </select>
+            {{range .Form.Errors.List "status"}}
+                <small id="e-status">{{.}}</small>
+            {{end}}
+            </p>
+        </div>
+        <div>
+            <p><label>End Date</label></p>
+            <p><input type="date" name="endDate" min="2024-10-1" max="2024-12-31"
+                value="{{if .Values.EndDate}}{{.Values.EndDate}}{{else}}{{end}}"
+                aria-invalid='{{with .Form.Errors.List "endDate"}}true{{end}}'
+                aria-describedby="e-date"> 
                 {{range .Form.Errors.List "endDate"}}
-                    <p style="color:crimson">{{.}}</p>
+                    <small id="e-date">{{.}}</small>
                 {{end}}
-                <p><label>End Date</label></p>
-                <p><input type="date" name="endDate" min="2024-10-1" max="2024-12-31"
-                    value="{{.Values.EndDate}}"></p>
-            </div>
-            <div>
-                <input type="submit" value="Submit">
-            </div>
-        </form>      
-    </body>
-</html>
+            </p>
+        </div>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>      
+{{end}}
