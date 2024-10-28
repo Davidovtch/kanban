@@ -4,18 +4,26 @@
     <h1>Login</h1>
     <form action="/login" method="POST" novalidate>
         <div>
-            {{range .Errors.email}}
-                <p style="color:crimson">{{.}}</p>
-            {{end}}
             <p><label>Email</label></p>
-            <p><input type="email" name="email"></p>
+            <p><input type="email" name="email"
+                value='{{with .Form.Get "email"}}{{.}}{{end}}'
+                aria-invalid='{{with .Form.Errors.List "email"}}true{{end}}'
+                aria-describedby="e-email">
+                {{range .Form.Errors.List "email"}}
+                    <small id="e-email" style="color:var(--pico-del-color)">
+                        {{.}}</small>
+                {{end}}
+            </p>
         </div>
         <div>
-            {{range .Errors.password}}
-                <p style="color:crimson">{{.}}</p>
-            {{end}}
             <p><label>Password</label></p>
-            <p><input type="password" name="password"></p>
+            <p><input type="password" name="password"
+                aria-invalid='{{with .Form.Errors.List "password"}}true{{end}}'
+                aria-describedby="e-password">
+                {{range .Form.Errors.List "password"}}
+                    <small id="e-password">{{.}}</small>
+                {{end}}
+            </p>
         </div>
         <div>
             <input type="submit" value="Submit">

@@ -30,7 +30,6 @@
         <div>
             <p><label>Password</label></p>
             <p><input type="password" name="password" 
-                value='{{with .Form.Get "password"}}{{.}}{{end}}'
                 aria-invalid='{{with .Form.Errors.List "password"}}true{{end}}'
                 aria-describedby="e-password">
                 {{range .Form.Errors.List "password"}}

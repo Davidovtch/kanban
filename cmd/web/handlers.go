@@ -201,7 +201,7 @@ func (app *app) updateTask(w http.ResponseWriter, r *http.Request) {
 	form.MaxLenght("name", 50)
 
 	if !form.Valid() {
-		render(w, "upTask.html", pageData{"Form:": form})
+		render(w, "upTask.html", pageData{"Form": form})
 		return
 	}
 
