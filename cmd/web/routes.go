@@ -10,13 +10,14 @@ func (app *app) routes() http.Handler {
 	mux.HandleFunc("GET /", app.getHomePage)
 	mux.HandleFunc("GET /tasks", app.getTaskPage)
 	mux.HandleFunc("GET /employee", app.getEmployeePage)
-	// mux.HandleFunc("GET /taem", app.getTaemPage)
+	mux.HandleFunc("GET /taem", app.getTaemPage)
 	mux.HandleFunc("GET /task/{id}", app.getUpdateTaskPage)
 	mux.HandleFunc("GET /employee/{id}", app.getUpdateEmployeePage)
 	// mux.HandleFunc("GET /logout", app.getLogout)
 
 	mux.HandleFunc("POST /tasks", app.postTask)
 	mux.HandleFunc("POST /employee", app.postEmployee)
+	mux.HandleFunc("POST /taem", app.postTaem)
 
 	mux.HandleFunc("GET /delTask/{id}", app.delTask)
 	mux.HandleFunc("GET /delEmployee/{id}", app.delEmployee)

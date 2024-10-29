@@ -10,9 +10,11 @@ import (
 )
 
 type homeRender struct {
-	task_id   int
-	task_name string
-	employees []models.Employees
+	task_id     int
+	task_name   string
+	task_status string
+	task_date   string
+	employees   []models.Employees
 }
 
 func (app *app) getLoginPage(w http.ResponseWriter, r *http.Request) {
@@ -44,19 +46,17 @@ func (app *app) getHomePage(w http.ResponseWriter, r *http.Request) {
 
 	home := []homeRender{}
 	tmp := []models.Employees{}
-	for i, task := range tasks {
-		if task.ID == task_empl[i].Task_id {
+	for _, ts_em := range task_empl {
+		for _, task := range tasks {
 			for _, employee := range empl {
-				if employee.ID == task_empl[i].Employee_id {
+				if ts_em.Task_id == task.ID && employee.ID == ts_em.Employee_id {
 					tmp = append(tmp, employee)
 				}
 			}
 			home = append(home, homeRender{task_id: task.ID, task_name: task.Name, employees: tmp})
-		} else {
-			home = append(home, homeRender{task_id: task.ID, task_name: task.Name})
 		}
 	}
-	log.Println(home)
+	log.Println("TOTAL", home)
 	render(w, "home.html", pageData{"Render": home})
 }
 
@@ -66,6 +66,22 @@ func (app *app) getTaskPage(w http.ResponseWriter, r *http.Request) {
 
 func (app *app) getEmployeePage(w http.ResponseWriter, r *http.Request) {
 	render(w, "employee.html", nil)
+}
+
+func (app *app) getTaemPage(w http.ResponseWriter, r *http.Request) {
+	tasks, err := app.task.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	empl, err := app.empl.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "taem.html", pageData{"Tasks": tasks, "Employees": empl})
 }
 
 func (app *app) getUpdateTaskPage(w http.ResponseWriter, r *http.Request) {
@@ -156,6 +172,56 @@ func (app *app) postEmployee(w http.ResponseWriter, r *http.Request) {
 		r.PostForm.Get("name"),
 		r.PostForm.Get("email"),
 		r.PostForm.Get("password"),
+	)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func (app *app) postTaem(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("task", "employee")
+
+	if !form.Valid() {
+		tasks, err := app.task.All()
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+
+		empl, err := app.empl.All()
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		render(w, "taem.html", pageData{"Tasks": tasks, "Employees": empl, "Form": form})
+		return
+	}
+
+	task_id, err := strconv.Atoi(r.PostForm.Get("task"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	employee_id, err := strconv.Atoi(r.PostForm.Get("employee"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	err = app.task_empl.Insert(
+		task_id,
+		employee_id,
 	)
 
 	if err != nil {
