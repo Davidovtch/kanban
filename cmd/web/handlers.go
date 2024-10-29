@@ -118,6 +118,35 @@ func (app *app) getUpdateEmployeePage(w http.ResponseWriter, r *http.Request) {
 	render(w, "upEmployee.html", pageData{"Values": empl})
 }
 
+func (app *app) getUpdateTaemPage(w http.ResponseWriter, r *http.Request) {
+	tmp := r.PathValue("id")
+	id, err := strconv.Atoi(tmp)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	task_empl, err := app.task_empl.Find(id)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	tasks, err := app.task.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	empl, err := app.empl.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "upTaem.html", pageData{"Tasks": tasks, "Employees": empl, "TE": task_empl})
+}
+
 /*
 	POST
 */
@@ -327,6 +356,58 @@ func (app *app) updateEmployee(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err = app.empl.Update(r.PostForm.Get("name"), r.PostForm.Get("email"), r.PostForm.Get("password"), id); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func (app *app) updateTaem(w http.ResponseWriter, r *http.Request) {
+	tmp := r.PathValue("id")
+	id, err := strconv.Atoi(tmp)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if err = r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("task", "employee")
+
+	if !form.Valid() {
+		tasks, err := app.task.All()
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+
+		empl, err := app.empl.All()
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		render(w, "upTaem.html", pageData{"Form": form, "Tasks": tasks, "Employees": empl})
+		return
+	}
+
+	task_id, err := strconv.Atoi(r.PostForm.Get("task"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	employee_id, err := strconv.Atoi(r.PostForm.Get("employee"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if err = app.task_empl.Update(task_id, employee_id, id); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}

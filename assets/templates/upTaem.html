@@ -1,0 +1,39 @@
+{{template "layout"}}
+{{define "title"}}Update Relationship{{end}}
+{{define "content"}}
+<h1>Update Relationship</h1>
+
+	<form action="/upTaem/{{.TE.ID}}" method="POST" class="grid">
+		<div>
+			<fieldset>
+				<legend>Tasks</legend>
+				{{range .Tasks}}
+					<label>
+						<input type="radio" name="task" value="{{.ID}}">
+						{{.Name}}
+					</label>
+				{{end}}
+			</fieldset>
+			{{range .Form.Errors.List "task"}}
+				<small style="color:var(--pico-del-color)">{{.}}</small>
+			{{end}}
+		</div>
+		<div>
+			<fieldset>
+				<legend>Employees</legend>
+				{{range .Employees}}
+					<label>
+						<input type="radio" name="employee" value="{{.ID}}">
+						{{.Name}}
+					</label>
+				{{end}}
+			</fieldset>
+			{{range .Form.Errors.List "employee"}}
+				<small style="color:var(--pico-del-color)">{{.}}</small>
+			{{end}}
+		</div>
+		<div style="display:flex;align-items: center">
+			<input type="submit" value="Submit">
+		</div>
+	</form>
+{{end}}

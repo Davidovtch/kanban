@@ -39,7 +39,7 @@ func (m *TEModel) All() ([]models.Task_Empl, error) {
 func (m *TEModel) Find(id int) (models.Task_Empl, error) {
 	var te models.Task_Empl
 
-	stmt := `SELECT task_id,employee_id FROM task_employee WHERE id = ?`
+	stmt := `SELECT id,task_id,employee_id FROM task_employee WHERE id = ?`
 	row := m.DB.QueryRow(stmt, id)
 
 	err := row.Scan(&te.ID, &te.Task_id, &te.Employee_id)
@@ -65,7 +65,7 @@ func (m *TEModel) Delete(id int) error {
 }
 
 func (m *TEModel) Update(task_id, empl_id, id int) error {
-	stmt := `UPDATE FROM task_employee SET task_id = $1,employee_id = $2 WHERE id = $3`
+	stmt := `UPDATE task_employee SET task_id = $1,employee_id = $2 WHERE id = $3`
 
 	_, err := m.DB.Exec(stmt, task_id, empl_id, id)
 	return err

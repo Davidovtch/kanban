@@ -13,6 +13,7 @@ func (app *app) routes() http.Handler {
 	mux.HandleFunc("GET /taem", app.getTaemPage)
 	mux.HandleFunc("GET /task/{id}", app.getUpdateTaskPage)
 	mux.HandleFunc("GET /employee/{id}", app.getUpdateEmployeePage)
+	mux.HandleFunc("GET /taem/{id}", app.getUpdateTaemPage)
 	// mux.HandleFunc("GET /logout", app.getLogout)
 
 	mux.HandleFunc("POST /tasks", app.postTask)
@@ -24,6 +25,7 @@ func (app *app) routes() http.Handler {
 
 	mux.HandleFunc("POST /upTask/{id}", app.updateTask)
 	mux.HandleFunc("POST /upEmployee/{id}", app.updateEmployee)
+	mux.HandleFunc("POST /upTaem/{id}", app.updateTaem)
 
 	return mux
 }
