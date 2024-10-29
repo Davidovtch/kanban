@@ -1,11 +1,19 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/davidovtch/Projeto-testes/internal/forms"
+	"github.com/davidovtch/Projeto-testes/internal/models"
 )
+
+type homeRender struct {
+	task_id   int
+	task_name string
+	employees []models.Employees
+}
 
 func (app *app) getLoginPage(w http.ResponseWriter, r *http.Request) {
 	render(w, "login.html", nil)
@@ -34,7 +42,22 @@ func (app *app) getHomePage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render(w, "home.html", pageData{"Tasks": tasks, "Employees": empl, "TE": task_empl})
+	home := []homeRender{}
+	tmp := []models.Employees{}
+	for i, task := range tasks {
+		if task.ID == task_empl[i].Task_id {
+			for _, employee := range empl {
+				if employee.ID == task_empl[i].Employee_id {
+					tmp = append(tmp, employee)
+				}
+			}
+			home = append(home, homeRender{task_id: task.ID, task_name: task.Name, employees: tmp})
+		} else {
+			home = append(home, homeRender{task_id: task.ID, task_name: task.Name})
+		}
+	}
+	log.Println(home)
+	render(w, "home.html", pageData{"Render": home})
 }
 
 func (app *app) getTaskPage(w http.ResponseWriter, r *http.Request) {

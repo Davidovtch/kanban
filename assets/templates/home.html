@@ -2,11 +2,6 @@
 {{define "title"}}Home{{end}}
 {{define "content"}}
     <iconify-icon icon="ic:baseline-home" width="32px" height="32px"></iconify-icon>
-    {{range .Tasks}}
-        <h2>{{.Name}}</h2>
-    {{end}}
-    {{range .Employees}}
-        <h3>{{.Name}}</h3>
-    {{end}}
+    <h2>{{.task_id}}</h2>
 {{end}}
 
