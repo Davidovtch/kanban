@@ -22,6 +22,7 @@ func (app *app) routes() http.Handler {
 
 	mux.HandleFunc("GET /delTask/{id}", app.delTask)
 	mux.HandleFunc("GET /delEmployee/{id}", app.delEmployee)
+	mux.HandleFunc("GET /delRelation/{id}", app.delRelation)
 
 	mux.HandleFunc("POST /upTask/{id}", app.updateTask)
 	mux.HandleFunc("POST /upEmployee/{id}", app.updateEmployee)

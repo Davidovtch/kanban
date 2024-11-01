@@ -1,7 +1,38 @@
 {{template "layout"}}
 {{define "title"}}Home{{end}}
 {{define "content"}}
-    <iconify-icon icon="ic:baseline-home" width="32px" height="32px"></iconify-icon>
-    <h2>{{len .Render}}</h2>
+    <iconify-icon icon="mdi:home" width="32px" height="32px"></iconify-icon>
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Status</th>
+                <th>End Date</th>
+                <th>Employee</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Values}}
+            <tr>
+                <th>{{.Task_name}} 
+                    <a href="/task/{{.Task_id}}"
+                    data-tooltip="Update task"><iconify-icon icon="mdi:pencil"></iconify-icon></a>
+                    <a style="color: var(--pico-del-color);" href="/delTask/{{.Task_id}}"
+                    data-tooltip="Delete task" data-placement="right"><iconify-icon icon="mdi:trash"></iconify-icon></a>
+                </th>
+                <th>{{.Task_status}}</th>
+                <th>{{.Task_endDate}}</th>
+                <th>{{.Employee_name}}
+                    <a href="/employee/{{.Employee_id}}"
+                    data-tooltip="Update employee"><iconify-icon icon="mdi:pencil"></iconify-icon></a>
+                    <a href="/delRelation/{{.Relation_id}}"
+                    data-tooltip="Cease relationship"><iconify-icon icon="mdi:account-off"></iconify-icon></a>
+                    <a style="color: var(--pico-del-color);" href="/delEmployee/{{.Employee_id}}"
+                    data-tooltip="Delete employee" data-placement="right"><iconify-icon icon="mdi:trash"></iconify-icon></a>
+                </th>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
 {{end}}
 

@@ -1,21 +1,11 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/davidovtch/Projeto-testes/internal/forms"
-	"github.com/davidovtch/Projeto-testes/internal/models"
 )
-
-type homeRender struct {
-	task_id     int
-	task_name   string
-	task_status string
-	task_date   string
-	employees   []models.Employees
-}
 
 func (app *app) getLoginPage(w http.ResponseWriter, r *http.Request) {
 	render(w, "login.html", nil)
@@ -26,38 +16,13 @@ func (app *app) getRegisterPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *app) getHomePage(w http.ResponseWriter, r *http.Request) {
-	tasks, err := app.task.All()
+	rel, err := app.task_empl.Relations()
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
 
-	empl, err := app.empl.All()
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	task_empl, err := app.task_empl.All()
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	home := []homeRender{}
-	tmp := []models.Employees{}
-	for _, ts_em := range task_empl {
-		for _, task := range tasks {
-			for _, employee := range empl {
-				if ts_em.Task_id == task.ID && employee.ID == ts_em.Employee_id {
-					tmp = append(tmp, employee)
-				}
-			}
-			home = append(home, homeRender{task_id: task.ID, task_name: task.Name, employees: tmp})
-		}
-	}
-	log.Println("TOTAL", home)
-	render(w, "home.html", pageData{"Render": home})
+	render(w, "home.html", pageData{"Values": rel})
 }
 
 func (app *app) getTaskPage(w http.ResponseWriter, r *http.Request) {
@@ -273,6 +238,11 @@ func (app *app) delTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err = app.task_empl.Delete_Task(id); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
 	if err = app.task.Delete(id); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -289,7 +259,28 @@ func (app *app) delEmployee(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err = app.task_empl.Delete_Employee(id); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
 	if err = app.empl.Delete(id); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	http.Redirect(w, r, "/", http.StatusFound)
+}
+
+func (app *app) delRelation(w http.ResponseWriter, r *http.Request) {
+	tmp := r.PathValue("id")
+	id, err := strconv.Atoi(tmp)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	if err = app.task_empl.Delete(id); err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}

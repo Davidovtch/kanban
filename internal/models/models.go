@@ -19,3 +19,13 @@ type Task_Empl struct {
 	Task_id     int
 	Employee_id int
 }
+
+type HomeView struct {
+	Relation_id   int
+	Task_id       int
+	Task_name     string
+	Task_status   string
+	Task_endDate  string
+	Employee_id   int
+	Employee_name string
+}
