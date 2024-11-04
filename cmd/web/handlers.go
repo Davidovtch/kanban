@@ -29,8 +29,28 @@ func (app *app) getTaskPage(w http.ResponseWriter, r *http.Request) {
 	render(w, "task.html", nil)
 }
 
+func (app *app) getAllTasksPage(w http.ResponseWriter, r *http.Request) {
+	tasks, err := app.task.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "allTasks.html", pageData{"Values": tasks})
+}
+
 func (app *app) getEmployeePage(w http.ResponseWriter, r *http.Request) {
 	render(w, "employee.html", nil)
+}
+
+func (app *app) getAllEmployeesPage(w http.ResponseWriter, r *http.Request) {
+	empl, err := app.empl.All()
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "allEmployees.html", pageData{"Values": empl})
 }
 
 func (app *app) getTaemPage(w http.ResponseWriter, r *http.Request) {

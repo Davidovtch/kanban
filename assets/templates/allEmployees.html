@@ -1,0 +1,15 @@
+{{template "layout"}}
+{{define "title"}}Employees List{{end}}
+{{define "content"}}
+
+{{range .Values}}
+<article>
+    <header>{{.Name}}
+        <a href="/employee/{{.ID}}"data-tooltip="Update employee"><iconify-icon icon="mdi:pencil"></iconify-icon></a>
+        <a style="color: var(--pico-del-color);" href="/delEmployee/{{.ID}}"data-tooltip="Delete employee" data-placement="right"><iconify-icon icon="mdi:trash"></iconify-icon></a>
+    </header>
+    {{.Email}}
+</article>
+{{end}}
+
+{{end}}
