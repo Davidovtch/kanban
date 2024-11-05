@@ -19,7 +19,29 @@ type app struct {
 func main() {
 	db, err := sql.Open("sqlite3", "file:app.db?_fk=true")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Error opening/creating the database\n", err)
+	}
+	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS tasks(
+    	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    	name VARCHAR(255) NOT NULL,
+    	status VARCHAR(255) NOT NULL,
+    	endDate TEXT NOT NULL
+		);
+		CREATE TABLE IF NOT EXISTS employees(
+    	id INTEGER PRIMARY KEY AUTOINCREMENT,
+    	name VARCHAR(255) NOT NULL,
+    	email VARCHAR(255) UNIQUE NOT NULL,
+    	password VARCHAR(255) NOT NULL
+		);
+		CREATE TABLE IF NOT EXISTS task_employee(
+    	id INTEGER PRIMARY KEY AUTOINCREMENT,    
+    	task_id INTEGER NOT NULL,
+    	employee_id INTEGER NOT NULL,
+    	FOREIGN KEY(task_id) REFERENCES tasks(id),
+    	FOREIGN KEY(employee_id) REFERENCES employees(id)
+		);`)
+	if err != nil {
+		log.Fatal("Error creating the tables\n", err)
 	}
 
 	app := app{
