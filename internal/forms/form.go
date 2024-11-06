@@ -1,10 +1,13 @@
 package forms
 
 import (
+	"log"
 	"net/url"
 	"regexp"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/davidovtch/Projeto-testes/internal/models/sqlite"
 )
 
 type Form struct {
@@ -33,12 +36,22 @@ func (f *Form) MaxLenght(field string, lenght int) {
 	}
 }
 
-func (f *Form) Email(field string) {
+func (f *Form) Email(field string, empl *sqlite.EmployeeModel) {
 	var regexMail = regexp.MustCompile(".+@.+\\..+")
 
 	match := regexMail.Match([]byte(f.Get(field)))
 	if !match {
 		f.Errors.Add(field, "Please enter a valid email")
+		return
+	}
+
+	employee, err := empl.FindEmail(field)
+	if err != nil {
+		log.Println(err)
+	}
+
+	if employee.Email == f.Get(field) {
+		f.Errors.Add(field, "This email is already in use")
 	}
 }
 

@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	"github.com/davidovtch/Projeto-testes/internal/models"
@@ -43,6 +44,20 @@ func (m *EmployeeModel) Find(id int) (models.Employees, error) {
 
 	stmt := `SELECT id,name,email,password FROM employees WHERE id = ?`
 	row := m.DB.QueryRow(stmt, id)
+
+	err := row.Scan(&e.ID, &e.Name, &e.Email, &e.Password)
+	if err != nil {
+		return models.Employees{}, err
+	}
+
+	return e, nil
+}
+
+func (m *EmployeeModel) FindEmail(email string) (models.Employees, error) {
+	var e models.Employees
+
+	stmt := fmt.Sprintf("SELECT id,name,email,password FROM employees WHERE email = %q", email)
+	row := m.DB.QueryRow(stmt)
 
 	err := row.Scan(&e.ID, &e.Name, &e.Email, &e.Password)
 	if err != nil {
