@@ -67,6 +67,32 @@ func (m *EmployeeModel) FindEmail(email string) (models.Employees, error) {
 	return e, nil
 }
 
+func (m *EmployeeModel) Like(search string) ([]models.Employees, error) {
+	stmt := fmt.Sprintf("SELECT id,name,email,password FROM employees WHERE name LIKE %q", "%"+search+"%")
+
+	row, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	employees := []models.Employees{}
+	for row.Next() {
+		e := models.Employees{}
+		err := row.Scan(&e.ID, &e.Name, &e.Email, &e.Password)
+		if err != nil {
+			return nil, err
+		}
+
+		employees = append(employees, e)
+	}
+
+	if err = row.Err(); err != nil {
+		return nil, err
+	}
+
+	return employees, nil
+}
+
 func (m *EmployeeModel) Auth(email, password string) (int, error) {
 	var (
 		hashed []byte

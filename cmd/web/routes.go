@@ -19,7 +19,9 @@ func (app *app) routes() http.Handler {
 	// mux.HandleFunc("GET /logout", app.getLogout)
 
 	mux.HandleFunc("POST /tasks", app.postTask)
+	mux.HandleFunc("POST /likeTasks", app.postLikeTasks)
 	mux.HandleFunc("POST /employee", app.postEmployee)
+	mux.HandleFunc("POST /likeEmployees", app.postLikeEmployees)
 	mux.HandleFunc("POST /taem", app.postTaem)
 
 	mux.HandleFunc("GET /delTask/{id}", app.delTask)

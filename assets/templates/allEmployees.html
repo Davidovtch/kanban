@@ -2,6 +2,10 @@
 {{define "title"}}Employees List{{end}}
 {{define "content"}}
 
+<form role="search" action="/likeEmployees" method="POST">
+    <input name="search" type="search" placeholder="Search an employee by name">
+    <input type="submit" value="Search">
+</form>
 {{range .Values}}
 <article>
     <header>{{.Name}}

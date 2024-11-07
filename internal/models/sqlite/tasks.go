@@ -2,6 +2,7 @@ package sqlite
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/davidovtch/Projeto-testes/internal/models"
 )
@@ -49,6 +50,33 @@ func (m *TaskModel) Find(id int) (models.Tasks, error) {
 	}
 
 	return t, nil
+}
+
+func (m *TaskModel) Like(search string) ([]models.Tasks, error) {
+	stmt := fmt.Sprintf("SELECT id,name,status,endDate FROM tasks WHERE name LIKE %q", "%"+search+"%")
+
+	row, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+
+	tasks := []models.Tasks{}
+	for row.Next() {
+		t := models.Tasks{}
+		err := row.Scan(&t.ID, &t.Name, &t.Status, &t.EndDate)
+		if err != nil {
+			return nil, err
+		}
+
+		tasks = append(tasks, t)
+	}
+
+	err = row.Err()
+	if err != nil {
+		return nil, err
+	}
+
+	return tasks, nil
 }
 
 func (m *TaskModel) Insert(name, status, date string) error {

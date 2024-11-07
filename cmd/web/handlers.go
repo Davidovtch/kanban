@@ -246,6 +246,36 @@ func (app *app) postTaem(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusFound)
 }
 
+func (app *app) postLikeTasks(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	tasks, err := app.task.Like(r.PostForm.Get("search"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "allTasks.html", pageData{"Values": tasks})
+}
+
+func (app *app) postLikeEmployees(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	empl, err := app.empl.Like(r.PostForm.Get("search"))
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	render(w, "allEmployees.html", pageData{"Values": empl})
+}
+
 /*
 	DELETE
 */

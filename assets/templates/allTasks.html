@@ -2,6 +2,10 @@
 {{define "title"}}Task List{{end}}
 {{define "content"}} 
 
+<form role="search" action="/likeTasks" method="POST">
+    <input name="search" type="search" placeholder="Search a task by name">
+    <input type="submit" value="Search">
+</form>
 {{range .Values}}
 <article>
     <header>{{.Name}}
