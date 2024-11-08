@@ -14,11 +14,11 @@
         data-tooltip="Delete task" data-placement="right"><iconify-icon icon="mdi:trash"></iconify-icon></a>
     </header>
     {{if eq .Status "todo"}}
-    <p style="color: #D93526;">{{.Status}}</p>
+    <p id="status" style="color: #D93526;">{{.Status}}</p>
     {{else if eq .Status "doing"}}
-    <p style="color: #FFBF00;">{{.Status}}</p>
+    <p id="status" style="color: #FFBF00;">{{.Status}}</p>
     {{else}}
-    <p style="color: #00895A;">{{.Status}}</p>
+    <p id="status" style="color: #00895A;">{{.Status}}</p>
     {{end}}
     <foote>{{.EndDate}}</foote>
 </article>

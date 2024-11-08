@@ -1,7 +1,6 @@
 package forms
 
 import (
-	"log"
 	"net/url"
 	"regexp"
 	"strings"
@@ -45,14 +44,14 @@ func (f *Form) Email(field string, empl *sqlite.EmployeeModel) {
 		return
 	}
 
-	employee, err := empl.FindEmail(field)
-	if err != nil {
-		log.Println(err)
-	}
+	// employee, err := empl.FindEmail(field)
+	// if err != nil {
+	// 	log.Println(err)
+	// }
 
-	if employee.Email == f.Get(field) {
-		f.Errors.Add(field, "This email is already in use")
-	}
+	// if employee.Email == f.Get(field) {
+	// 	f.Errors.Add(field, "This email is already in use")
+	// }
 }
 
 func (f *Form) Valid() bool {

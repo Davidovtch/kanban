@@ -1,0 +1,17 @@
+describe('Acessibilidade via Web e Dispositivos Móveis', () => {
+    it('Acessibilidade via Web e Dispositivos Móveis', () => {
+      cy.visit('http://localhost:8000/')
+      cy.viewport('samsung-s10')
+      cy.get('#home').should('be.visible')
+      cy.wait(1000)
+      cy.viewport(1920,1270)
+      cy.get('#home').should('be.visible')
+      cy.wait(1000)
+      cy.viewport('iphone-8')
+      cy.get('#home').should('be.visible')
+      cy.wait(1000)
+      cy.viewport('macbook-16')
+      cy.get('#home').should('be.visible')
+      cy.wait(1000)
+    })
+  })

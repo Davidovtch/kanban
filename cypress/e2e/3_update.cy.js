@@ -1,0 +1,15 @@
+describe('Atribuição de tarefas a membros da equipe', () => {
+  it('Tarefa pode ser editada', () => {
+    cy.visit('http://localhost:8000/')
+    cy.get('#tasks_page').click()
+    cy.get('a[href="/task/1"]').click()
+    cy.get('input[name="name"').type(' testing again')
+    cy.get('select').select('done')
+    cy.get('input[name="endDate"').type('2024-12-12')
+    cy.wait(1000)
+    cy.get('input[type="submit"]').click()
+    cy.get('#tasks_page').click()
+    cy.get('#status').should('be.visible')
+    cy.wait(1000)
+  })
+})

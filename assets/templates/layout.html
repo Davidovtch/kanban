@@ -12,14 +12,14 @@
     <div class="container">
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
+                <li><a href="/" id="home">Home</a></li>
             </ul>
             <ul>
-                <li><a href="/tasks">New Task</a></li>
-                <li><a href="/listTasks">View Tasks</a></li>
-                <li><a href="/employee">New Employee</a></li>
-                <li><a href="/listEmployees">View Employees</a></li>
-                <li><a href="/taem">Relations</a></li>
+                <li><a href="/tasks" id="task_creation">New Task</a></li>
+                <li><a href="/listTasks" id="tasks_page">View Tasks</a></li>
+                <li><a href="/employee" id="employee_creation">New Employee</a></li>
+                <li><a href="/listEmployees" id="employees_page">View Employees</a></li>
+                <li><a href="/taem" id="relat">Relations</a></li>
             </ul>
         </nav>
     </div>
@@ -28,11 +28,6 @@
             {{template "content" .}}
         </div>
     </main>
-    <footer>
-        <div class="container" style="display: flex;justify-content: center;">
-            <p>Brought to you by Programações Programming©</p>
-        </div>
-    </footer>
 </body>
 </html>
 {{end}}
